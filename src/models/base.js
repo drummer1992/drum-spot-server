@@ -2,14 +2,6 @@ import { notFoundAssert } from '../errors'
 import { toSentenceCase } from '../utils/string'
 
 class BaseModel {
-  get objectId() {
-    return this._id.toString()
-  }
-
-  set (objectId) {
-    this._id = objectId
-  }
-
   async fetch(props) {
     const entity = await this.constructor.findById(this._id, props)
 

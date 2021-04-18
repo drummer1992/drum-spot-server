@@ -16,18 +16,12 @@
   },
   "globals": {
     "User": true,
-    "Chat": true,
-    "ChatMessage": true,
-    "DayOff": true,
-    "Offer": true,
-    "Reaction": true,
-    "Role": true,
+    "Advertisement": true,
     "assert": true,
     "describe": true,
     "it": true,
     "before": true,
-    "after": true,
-    "faker": true
+    "after": true
   },
   "rules": {
     "dot-notation": "error",

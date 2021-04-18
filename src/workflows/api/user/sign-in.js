@@ -1,7 +1,7 @@
 import Request from 'backendless-request'
 import * as jwt from '../../../utils/jwt'
 import createUser from '../../user/create'
-import { argumentsAssert, UnauthorizedError } from "../../../errors"
+import { argumentsAssert, UnauthorizedError } from '../../../errors'
 
 export default async ({ accessToken }) => {
   argumentsAssert(accessToken, 'accessToken is required')

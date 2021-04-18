@@ -7,7 +7,7 @@
     "build": "npx babel src --out-dir lib",
     "start": "node lib/index.js",
     "debug": "NODE_ENV=test nodemon --exec babel-node --trace-warnings src/index.js",
-    "lint": "eslint ./ --ext .js",
+    "lint": "eslint ./src --ext .js --fix",
     "sandbox": "babel-node sandbox.js",
     "test": "mocha"
   },
@@ -19,7 +19,6 @@
     "@babel/core": "^7.13.8",
     "@babel/eslint-parser": "^7.13.8",
     "@babel/node": "^7.13.0",
-    "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-proposal-decorators": "^7.13.5",
     "@babel/plugin-proposal-private-methods": "^7.13.0",
     "@babel/plugin-transform-runtime": "^7.13.10",
@@ -30,10 +29,14 @@
     "nodemon": "^2.0.7"
   },
   "dependencies": {
+    "backendless-request": "^0.1.1",
+    "decorated-routing": "https://github.com/drummer1992/decorated-routing",
     "formidable": "^1.2.2",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "mongodb": "^3.6.4",
-    "socket.io": "^4.0.0",
-    "mongoose": "5.11.15"
+    "mongoose": "5.11.15",
+    "schema-validator": "https://github.com/drummer1992/schema-validator",
+    "socket.io": "^4.0.0"
   }
 }
