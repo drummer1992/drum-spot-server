@@ -9,7 +9,7 @@ const schema = new Schema({
   rating          : { type: Schema.Types.Number, required: true },
   images          : [{ type: Schema.Types.String, required: true }],
   isRent          : { type: Schema.Types.Boolean, required: true },
-  isNewStuff           : { type: Schema.Types.Boolean, required: true },
+  isNewStuff      : { type: Schema.Types.Boolean, required: true },
   priceNegotiating: { type: Schema.Types.Boolean, required: true },
   user            : {
     type: Schema.Types.ObjectId,

@@ -13,4 +13,8 @@ class BaseModel {
   }
 }
 
+BaseModel.pickers = {
+  objectId: item => item._id
+}
+
 export default BaseModel

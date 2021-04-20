@@ -19,7 +19,6 @@ const initModels = async () => {
 const bootstrap = async () => {
   try {
     await dotEnv.config()
-
     await initModels()
     await db.init()
   } catch (e) {

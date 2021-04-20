@@ -1,12 +1,12 @@
 import AppService from './app-service'
 import { Service, Post, Get } from 'decorated-routing/decorators'
 import signIn from '../workflows/api/user/sign-in'
-import createAdvertisement from '../workflows/api/user/create-advertisement'
+import createAdvertisement from '../workflows/api/user/advertisements/create'
+import getAdvertisements from '../workflows/api/user/advertisements/get-many'
 import { Auth } from './decorators/auth'
-import { BodyValidationPipe } from './decorators/validation-pipe'
-import { CreateAdvertisementValidationSchema } from '../workflows/api/user/create-advertisement'
 import { HttpCode as c } from 'decorated-routing'
 import { StatusCode } from 'decorated-routing/decorators'
+import { parseFormData } from '../utils/http/parse-formdata'
 
 @Service('/user')
 class User extends AppService {
@@ -21,12 +21,21 @@ class User extends AppService {
     return this.getCurrentUser()
   }
 
-  @Post('/advertisement')
-  @BodyValidationPipe(CreateAdvertisementValidationSchema)
+  @Post({ path: '/advertisement', parseBody: false })
   @Auth()
   @StatusCode(c.CREATED)
-  createAdvertisement() {
-    return createAdvertisement(this.getCurrentUser(), this.request.body)
+  async createAdvertisement() {
+    const { files, fields: { body } } = await parseFormData(this.req, process.env.PATH_TO_STATIC)
+
+    return createAdvertisement(this.getCurrentUser(), {
+      ...body,
+      images: files,
+    })
+  }
+
+  @Get('/advertisements')
+  getAdvertisements() {
+    return getAdvertisements()
   }
 }
 
