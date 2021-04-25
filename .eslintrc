@@ -17,6 +17,7 @@
   "globals": {
     "User": true,
     "Advertisement": true,
+    "Favorite": true,
     "assert": true,
     "describe": true,
     "it": true,

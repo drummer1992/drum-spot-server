@@ -1,15 +1,15 @@
 import { verify } from '../../utils/jwt'
 
-export function Auth({ fetchUser = true } = {}) {
-  return function(instance, serviceName, descriptor) {
+export function Auth({ fetch = false } = {}) {
+  return function (instance, serviceName, descriptor) {
     const method = descriptor.value
 
-    descriptor.value = async function(...args) {
+    descriptor.value = async function (...args) {
       const { _id } = verify(this.request.headers.authorization)
 
       let user = new User({ _id: _id })
 
-      if (fetchUser) {
+      if (fetch) {
         user = await user.fetch()
       }
 

@@ -1,4 +1,5 @@
 import path from 'path'
+import fs from 'fs/promises'
 import formidable from 'formidable'
 import { InvalidArgumentsError } from '../../errors'
 import { isEmpty } from 'schema-validator/predicates'
@@ -18,7 +19,7 @@ const parseFields = fields => {
   }
 }
 
-export const parseFormData = (req, destination) => new Promise((resolve, reject) => {
+const parse = (req, destination) => new Promise((resolve, reject) => {
   const form = formidable({ uploadDir: path.resolve(__dirname, destination) })
 
   form.on('fileBegin', (name, file) => {
@@ -42,3 +43,9 @@ export const parseFormData = (req, destination) => new Promise((resolve, reject)
     })
   })
 })
+
+export const parseFormData = async (req, destination) => {
+  await fs.mkdir(destination, { recursive: true })
+
+  return parse(req, destination)
+}
