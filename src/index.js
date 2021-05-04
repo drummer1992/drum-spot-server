@@ -3,6 +3,8 @@ import path from 'path'
 import { Routing } from 'decorated-routing'
 import AppService from './services/app-service'
 import bootstrap from './bootstrap'
+import initSocket from './socket'
+import * as context from './lib/context'
 
 const pathToServices = path.resolve(__filename, '../services')
 const PORT = 3000
@@ -12,9 +14,13 @@ async function init() {
 
   const routing = new Routing({ Service: AppService, corsEnabled: true })
 
-  const requestListener = await routing.init(pathToServices)
+  const onRequest = await routing.init(pathToServices)
 
-  http.createServer(requestListener).listen(PORT, () => {
+  const server = http.createServer(context.withHttpContext(onRequest))
+
+  initSocket(server)
+
+  server.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`)
   })
 }

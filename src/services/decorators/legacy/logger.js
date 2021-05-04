@@ -1,9 +1,14 @@
+import { executionAsyncResource } from 'async_hooks'
+import { ctxKey, logWithContext } from '../../../lib/context'
+
 export default fn => async function (...args) {
-  const start = Date.now()
+  const ctx = executionAsyncResource()[ctxKey]
+
+  logWithContext.info(ctx, `${ctx.method} ${ctx.url}`)
 
   const result = await fn.apply(this, args)
 
-  const ms = Date.now() - start
+  const ms = Date.now() - ctx.date
 
   let logger = console.log
   let errorMessage = ''
@@ -14,15 +19,7 @@ export default fn => async function (...args) {
     errorMessage = ` ${result.name}: ${result.message}`
   }
 
-  const time = new Date().toLocaleTimeString()
-
-  const body = Object.keys(this.request.body || {}).length
-    ? `\n${JSON.stringify(this.request.body, null, 2)}`
-    : ''
-
-  const endpoint = `[${this.response.statusCode}] '${this.request.method} ${this.request.url}'`
-
-  logger(`[${time}] ${endpoint}${errorMessage} ${ms} ms${body}`)
+  logWithContext(logger)(ctx, `[${this.response.statusCode}]${errorMessage} ${ms} ms`)
 
   return result
 }

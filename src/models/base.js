@@ -2,6 +2,14 @@ import { notFoundAssert } from '../errors'
 import { toSentenceCase } from '../utils/string'
 
 class BaseModel {
+  get objectId() {
+    return this._id.toString()
+  }
+
+  set objectId(value) {
+    this._id = value
+  }
+
   async fetch(props) {
     const entity = await this.constructor.findById(this._id, props)
 
@@ -11,10 +19,6 @@ class BaseModel {
 
     return entity
   }
-}
-
-BaseModel.pickers = {
-  objectId: item => item._id,
 }
 
 export default BaseModel

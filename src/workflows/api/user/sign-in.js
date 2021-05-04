@@ -2,8 +2,9 @@ import Request from 'backendless-request'
 import * as jwt from '../../../utils/jwt'
 import createUser from '../../user/create'
 import { argumentsAssert, UnauthorizedError } from '../../../errors'
+import { flow } from '../../../lib/context'
 
-export default async ({ accessToken }) => {
+export default flow(async ({ accessToken }) => {
   argumentsAssert(accessToken, 'accessToken is required')
 
   try {
@@ -28,4 +29,4 @@ export default async ({ accessToken }) => {
   } catch (e) {
     throw new UnauthorizedError('Authorization failed')
   }
-}
+})

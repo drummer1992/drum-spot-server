@@ -18,6 +18,8 @@
     "User": true,
     "Advertisement": true,
     "Favorite": true,
+    "Chat": true,
+    "ChatMessage": true,
     "assert": true,
     "describe": true,
     "it": true,

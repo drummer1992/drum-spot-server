@@ -1,7 +1,8 @@
 import { argumentsAssert } from '../../../../errors'
 import { isObjectId } from '../../../../utils/predicates'
+import { flow } from '../../../../lib/context'
 
-export default async (advertisementId, saveImage, user) => {
+export default flow(async (advertisementId, saveImage, user) => {
   argumentsAssert(isObjectId(advertisementId), 'advertisement id is not valid')
 
   const advertisement = await Advertisement.findOne({
@@ -20,4 +21,4 @@ export default async (advertisementId, saveImage, user) => {
   await advertisement.save()
 
   return img
-}
+})

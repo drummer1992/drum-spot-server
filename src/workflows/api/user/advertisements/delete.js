@@ -1,8 +1,9 @@
 import fs from 'fs/promises'
 import { argumentsAssert } from '../../../../errors'
 import { isObjectId } from '../../../../utils/predicates'
+import { flow } from '../../../../lib/context'
 
-export default async (advertisementId, user) => {
+export default flow(async (advertisementId, user) => {
   argumentsAssert(isObjectId(advertisementId), 'invalid objectId provided')
 
   const { deletedCount } = await Advertisement.deleteOne({
@@ -14,5 +15,5 @@ export default async (advertisementId, user) => {
 
   const destination = `${process.env.PATH_TO_STATIC}/${advertisementId}`
 
- await fs.rm(destination, { recursive: true, force: true })
-}
+  await fs.rm(destination, { recursive: true, force: true })
+})

@@ -3,4 +3,4 @@ yarn.lock
 .env.test
 sandbox.js
 node_modules
-lib
+./lib

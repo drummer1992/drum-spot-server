@@ -1,4 +1,4 @@
-import { APIError, InternalServerError } from '../../../errors'
+import { APIError, InternalServerError } from '../../errors'
 
 const errorHandlerDecorator = fn => async function (...args) {
   try {

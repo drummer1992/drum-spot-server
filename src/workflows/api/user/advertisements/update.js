@@ -1,6 +1,7 @@
 import { array, string, number, boolean, oneOf, optional } from 'schema-validator'
 import { argumentsAssert, notFoundAssert } from '../../../../errors'
 import { isObjectId } from '../../../../utils/predicates'
+import { flow } from '../../../../lib/context'
 
 export const UpdateAdvertisementSchema = {
   price           : optional(number),
@@ -14,10 +15,10 @@ export const UpdateAdvertisementSchema = {
   priceNegotiating: optional(boolean),
 }
 
-export default async (advertisementId, data, user) => {
+export default flow(async (advertisementId, data, user) => {
   argumentsAssert(isObjectId(advertisementId), 'invalid objectId provided')
 
   const { nModified } = await Advertisement.updateOne({ _id: advertisementId, user }, data)
 
   notFoundAssert(nModified, 'advertisement not found')
-}
+})

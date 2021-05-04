@@ -1,8 +1,9 @@
 import fs from 'fs/promises'
 import { argumentsAssert } from '../../../../errors'
 import { isObjectId } from '../../../../utils/predicates'
+import { flow } from '../../../../lib/context'
 
-export default async (advertisementId, path, user) => {
+export default flow(async (advertisementId, path, user) => {
   argumentsAssert(path, 'path is not provided')
   argumentsAssert(isObjectId(advertisementId), 'invalid objectId provided')
 
@@ -19,4 +20,4 @@ export default async (advertisementId, path, user) => {
   ad.images = ad.images.filter(img => img !== path)
 
   await ad.save()
-}
+})

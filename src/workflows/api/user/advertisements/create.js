@@ -1,5 +1,6 @@
 import { array, string, number, boolean, oneOf, createValidator } from 'schema-validator'
 import { InvalidArgumentsError } from '../../../../errors'
+import { flow } from '../../../../lib/context'
 
 const assertAdvertisementIsValid = createValidator({
   price           : number,
@@ -13,7 +14,7 @@ const assertAdvertisementIsValid = createValidator({
   priceNegotiating: boolean,
 }, 'advertisement payload')
 
-export default (user, data) => {
+export default flow((user, data) => {
   try {
     assertAdvertisementIsValid(data)
   } catch (e) {
@@ -24,4 +25,4 @@ export default (user, data) => {
     user,
     ...data,
   })
-}
+})
