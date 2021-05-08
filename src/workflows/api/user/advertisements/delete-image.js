@@ -2,6 +2,7 @@ import fs from 'fs/promises'
 import { argumentsAssert } from '../../../../errors'
 import { isObjectId } from '../../../../utils/predicates'
 import { flow } from '../../../../lib/context'
+import { toStaticPath } from '../../../../utils/static'
 
 export default flow(async (advertisementId, path, user) => {
   argumentsAssert(path, 'path is not provided')
@@ -11,11 +12,11 @@ export default flow(async (advertisementId, path, user) => {
 
   argumentsAssert(ad, 'advertisement not found')
 
-  const imagePath = ad.images.find(img => img === path)
+  const imageURL = ad.images.find(img => img === path)
 
-  argumentsAssert(imagePath, 'image not found')
+  argumentsAssert(imageURL, 'image not found')
 
-  await fs.rm(imagePath, { force: true })
+  await fs.rm(toStaticPath(imageURL), { force: true })
 
   ad.images = ad.images.filter(img => img !== path)
 

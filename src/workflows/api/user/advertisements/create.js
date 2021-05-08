@@ -1,6 +1,7 @@
 import { array, string, number, boolean, oneOf, createValidator } from 'schema-validator'
 import { InvalidArgumentsError } from '../../../../errors'
 import { flow } from '../../../../lib/context'
+import { toStaticURL } from '../../../../utils/static'
 
 const assertAdvertisementIsValid = createValidator({
   price           : number,
@@ -22,7 +23,8 @@ export default flow((user, data) => {
   }
 
   return Advertisement.create({
-    user,
     ...data,
+    user,
+    images: data.images.map(toStaticURL),
   })
 })

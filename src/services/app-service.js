@@ -3,7 +3,9 @@ import { ErrorHandler } from './decorators/error-handler'
 import { Logger } from './decorators/logger'
 import { executionAsyncResource } from 'async_hooks'
 import { ctxKey, logWithContext } from '../lib/context'
+import { ApiPrefix } from 'decorated-routing/decorators'
 
+@ApiPrefix('/drumspot')
 export default class AppService extends BaseService {
   static async parseBody(req) {
     const body = await super.parseBody(req)

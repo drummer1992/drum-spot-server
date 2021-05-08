@@ -1,6 +1,7 @@
 import { argumentsAssert } from '../../../../errors'
 import { isObjectId } from '../../../../utils/predicates'
 import { flow } from '../../../../lib/context'
+import { toStaticURL } from '../../../../utils/static'
 
 export default flow(async (advertisementId, saveImage, user) => {
   argumentsAssert(isObjectId(advertisementId), 'advertisement id is not valid')
@@ -14,7 +15,7 @@ export default flow(async (advertisementId, saveImage, user) => {
 
   const { files } = await saveImage(advertisementId)
 
-  const img = files[0]
+  const img = toStaticURL(files[0])
 
   advertisement.images.push(img)
 

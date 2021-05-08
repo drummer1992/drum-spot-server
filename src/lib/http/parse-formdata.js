@@ -33,7 +33,7 @@ const parse = (req, destination) => new Promise((resolve, reject) => {
       return reject(new InvalidArgumentsError('Unable to parse form data'))
     }
 
-    if (isEmpty(files)) {
+    if (isEmpty(files) && isEmpty(fields)) {
       return reject(new InvalidArgumentsError('Empty form data provided'))
     }
 
