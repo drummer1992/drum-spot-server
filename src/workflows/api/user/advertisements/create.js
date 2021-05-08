@@ -1,8 +1,9 @@
 import { string, number, boolean, oneOf, createValidator } from 'schema-validator'
-import { InvalidArgumentsError } from '../../../../errors'
+import { argumentsAssert, InvalidArgumentsError } from '../../../../errors'
 import { flow } from '../../../../lib/context'
 import { toStaticURL } from '../../../../utils/static'
 import fs from 'fs/promises'
+import { isEmpty } from 'lodash'
 
 const assertAdvertisementIsValid = createValidator({
   price           : number,
@@ -16,9 +17,13 @@ const assertAdvertisementIsValid = createValidator({
 }, 'advertisement payload')
 
 export default flow(async (user, _id, parsedFormData) => {
-  const body = JSON.parse(parsedFormData.fields.body)
+  let body
 
   try {
+    argumentsAssert(!isEmpty(parsedFormData.files), 'no images')
+
+    body = JSON.parse(parsedFormData.fields.body)
+
     assertAdvertisementIsValid(body)
   } catch (e) {
     const destination = `${process.env.PATH_TO_STATIC}/${_id}`
