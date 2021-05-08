@@ -7,7 +7,7 @@ import initSocket from './socket'
 import * as context from './lib/context'
 
 const pathToServices = path.resolve(__filename, '../services')
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 async function init() {
   await bootstrap()
