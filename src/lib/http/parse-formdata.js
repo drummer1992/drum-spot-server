@@ -40,7 +40,7 @@ const parse = (req, destination) => new Promise((resolve, reject) => {
 
     const parsed = parseFields(fields)
 
-    logWithContext.info(`body: ${JSON.stringify(parsed.body, null, 2)}`)
+    logWithContext.info(parsed.body)
 
     return resolve({
       files : Object.values(files).map(f => f.path),
