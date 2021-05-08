@@ -21,7 +21,6 @@ const initSocket = server => {
   const socket = new Server(server, {
     transports: ['polling', 'websocket'],
     cors      : { methods: ['GET', 'POST'] },
-    path      : '/drumspot/chat',
   })
 
   socket.use(authMiddleware)
