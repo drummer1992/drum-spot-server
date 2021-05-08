@@ -7,10 +7,11 @@ import initSocket from './socket'
 import * as context from './lib/context'
 
 const pathToServices = path.resolve(__filename, '../services')
-const PORT = process.env.PORT || 3000
 
 async function init() {
   await bootstrap()
+
+  const PORT = process.env.PORT || 3000
 
   const routing = new Routing({ Service: AppService, corsEnabled: true })
 
