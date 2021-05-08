@@ -1,6 +1,6 @@
 import { array, string, number, boolean, oneOf, createValidator } from 'schema-validator'
 import { InvalidArgumentsError } from '../../../../errors'
-import { flow } from '../../../../lib/context'
+import { flow, logWithContext } from '../../../../lib/context'
 import { toStaticURL } from '../../../../utils/static'
 
 const assertAdvertisementIsValid = createValidator({
@@ -16,6 +16,8 @@ const assertAdvertisementIsValid = createValidator({
 }, 'advertisement payload')
 
 export default flow((user, data) => {
+  logWithContext.info(data)
+
   try {
     assertAdvertisementIsValid(data)
   } catch (e) {
