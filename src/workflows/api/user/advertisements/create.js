@@ -1,7 +1,8 @@
-import { array, string, number, boolean, oneOf, createValidator } from 'schema-validator'
+import { string, number, boolean, oneOf, createValidator } from 'schema-validator'
 import { InvalidArgumentsError } from '../../../../errors'
 import { flow } from '../../../../lib/context'
 import { toStaticURL } from '../../../../utils/static'
+import fs from 'fs/promises'
 
 const assertAdvertisementIsValid = createValidator({
   price           : number,
@@ -9,20 +10,21 @@ const assertAdvertisementIsValid = createValidator({
   city            : string,
   details         : string,
   rating          : oneOf([1, 2, 3, 4, 5]),
-  images          : array.nonempty,
   isRent          : boolean,
   isNewStuff      : boolean,
   priceNegotiating: boolean,
 }, 'advertisement payload')
 
-export default flow((user, _id, parsedFormData) => {
-  console.log(parsedFormData.fields.body)
-
+export default flow(async (user, _id, parsedFormData) => {
   const body = JSON.parse(parsedFormData.fields.body)
 
   try {
     assertAdvertisementIsValid(body)
   } catch (e) {
+    const destination = `${process.env.PATH_TO_STATIC}/${_id}`
+
+    await fs.rm(destination, { recursive: true, force: true })
+
     throw new InvalidArgumentsError(e.message)
   }
 
