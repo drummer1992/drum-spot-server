@@ -37,11 +37,7 @@ class User extends AppService {
     const _id = generateId()
     const parsed = await parseFormData(this.req, `${process.env.PATH_TO_STATIC}/${_id}`)
 
-    return createAdvertisement(this.getCurrentUser(), {
-      ...parsed.fields.body,
-      images: parsed.files,
-      _id,
-    })
+    return createAdvertisement(this.getCurrentUser(), _id, parsed)
   }
 
   @Post('/favorites/{id}')

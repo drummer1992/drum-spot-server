@@ -1,6 +1,6 @@
 import { array, string, number, boolean, oneOf, createValidator } from 'schema-validator'
 import { InvalidArgumentsError } from '../../../../errors'
-import { flow, logWithContext } from '../../../../lib/context'
+import { flow } from '../../../../lib/context'
 import { toStaticURL } from '../../../../utils/static'
 
 const assertAdvertisementIsValid = createValidator({
@@ -15,18 +15,21 @@ const assertAdvertisementIsValid = createValidator({
   priceNegotiating: boolean,
 }, 'advertisement payload')
 
-export default flow((user, data) => {
-  logWithContext.info(data)
+export default flow((user, _id, parsedFormData) => {
+  console.log(parsedFormData.fields.body)
+
+  const body = JSON.parse(parsedFormData.fields.body)
 
   try {
-    assertAdvertisementIsValid(data)
+    assertAdvertisementIsValid(body)
   } catch (e) {
     throw new InvalidArgumentsError(e.message)
   }
 
   return Advertisement.create({
-    ...data,
+    _id,
     user,
-    images: data.images.map(toStaticURL),
+    images: parsedFormData.files.map(toStaticURL),
+    ...body,
   })
 })

@@ -4,21 +4,6 @@ import formidable from 'formidable'
 import { InvalidArgumentsError } from '../../errors'
 import { isEmpty } from 'schema-validator/predicates'
 
-const parseFields = fields => {
-  try {
-    const keys = Object.keys(fields)
-
-    return keys.length
-      ? fields = keys.reduce(
-        (res, key) => ({ ...res, [key]: JSON.parse(fields[key]) }),
-        {},
-      )
-      : fields
-  } catch {
-    return fields
-  }
-}
-
 const parse = (req, destination) => new Promise((resolve, reject) => {
   const form = formidable({ uploadDir: path.resolve(__dirname, destination) })
 
@@ -37,11 +22,9 @@ const parse = (req, destination) => new Promise((resolve, reject) => {
       return reject(new InvalidArgumentsError('Empty form data provided'))
     }
 
-    const parsed = parseFields(fields)
-
     return resolve({
       files : Object.values(files).map(f => f.path),
-      fields: parsed,
+      fields,
     })
   })
 })
