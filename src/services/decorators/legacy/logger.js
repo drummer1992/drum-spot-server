@@ -1,10 +1,9 @@
-import { executionAsyncResource } from 'async_hooks'
-import { ctxKey, logWithContext } from '../../../lib/context'
+import { getContext, logWithContext } from '../../../lib/context'
 
 export default fn => async function (...args) {
-  const ctx = executionAsyncResource()[ctxKey]
+  const ctx = getContext()
 
-  logWithContext.info(ctx, `${ctx.method} ${ctx.url}`)
+  logWithContext.info(`${ctx.method} ${ctx.url}`)
 
   const result = await fn.apply(this, args)
 
@@ -19,7 +18,7 @@ export default fn => async function (...args) {
     errorMessage = ` ${result.name}: ${result.message}`
   }
 
-  logWithContext(logger)(ctx, `[${this.response.statusCode}]${errorMessage} ${ms} ms`)
+  logWithContext(logger)(`[${this.response.statusCode}]${errorMessage} ${ms} ms`)
 
   return result
 }

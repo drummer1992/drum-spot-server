@@ -3,6 +3,7 @@ import fs from 'fs/promises'
 import formidable from 'formidable'
 import { InvalidArgumentsError } from '../../errors'
 import { isEmpty } from 'schema-validator/predicates'
+import { logWithContext } from '../context'
 
 const parseFields = fields => {
   try {
@@ -37,9 +38,13 @@ const parse = (req, destination) => new Promise((resolve, reject) => {
       return reject(new InvalidArgumentsError('Empty form data provided'))
     }
 
+    const body = parseFields(fields)
+
+    logWithContext.info(`body: ${JSON.stringify(body)}`)
+
     return resolve({
       files : Object.values(files).map(f => f.path),
-      fields: parseFields(fields),
+      fields: body,
     })
   })
 })

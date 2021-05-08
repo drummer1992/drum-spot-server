@@ -1,12 +1,11 @@
 import { decoratePrototype } from '../../utils/object'
-import { executionAsyncResource } from 'async_hooks'
-import { ctxKey, logWithContext } from '../../lib/context'
+import { getContext, logWithContext } from '../../lib/context'
 
 export function Logger(Clazz) {
   decoratePrototype((fn, key) => async function (...args) {
-    const ctx = executionAsyncResource()[ctxKey]
+    const ctx = getContext()
 
-    logWithContext.info(ctx, `[event: ${key}]`)
+    logWithContext.info(`[event: ${key}]`)
 
     const result = await fn.apply(this, args)
 
