@@ -38,13 +38,13 @@ const parse = (req, destination) => new Promise((resolve, reject) => {
       return reject(new InvalidArgumentsError('Empty form data provided'))
     }
 
-    const body = parseFields(fields)
+    const parsed = parseFields(fields)
 
-    logWithContext.info(`body: ${JSON.stringify(body)}`)
+    logWithContext.info(`body: ${JSON.stringify(parsed.body, null, 2)}`)
 
     return resolve({
       files : Object.values(files).map(f => f.path),
-      fields: body,
+      fields: parsed,
     })
   })
 })
