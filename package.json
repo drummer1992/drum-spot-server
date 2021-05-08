@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "build": "npx babel src --out-dir lib",
-    "start": "node lib/index.js",
-    "debug": "NODE_ENV=test nodemon --exec babel-node --trace-warnings src/index.js",
+    "start": "NODE_ENV=production node lib/index.js",
+    "debug": "NODE_ENV=debug nodemon --exec babel-node --trace-warnings src/index.js",
     "lint": "eslint ./src --ext .js --fix",
     "sandbox": "babel-node sandbox.js",
     "test": "mocha"

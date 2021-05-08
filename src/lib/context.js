@@ -1,8 +1,6 @@
 import { executionAsyncResource, createHook } from 'async_hooks'
 import { nanoid } from 'nanoid'
 
-const WORKFLOW_MARKER = '/src/workflows/'
-
 export const ctxKey = Symbol('ctx')
 
 createHook({
@@ -29,6 +27,10 @@ export const logWithContext = logger => (...args) => {
 
 logWithContext.info = logWithContext(console.log)
 logWithContext.error = logWithContext(console.error)
+
+const ROOT_FOLDER = process.env.NODE_ENV === 'production' ? '/lib' : '/src'
+
+const WORKFLOW_MARKER = `${ROOT_FOLDER}/workflows/`
 
 const getWorkflowPath = () => {
   const obj = {}
