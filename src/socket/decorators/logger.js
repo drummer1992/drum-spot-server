@@ -20,7 +20,7 @@ export function Logger(Clazz) {
       errorMessage = `${result.name}: ${result.message}`
     }
 
-    logger(ctx, errorMessage, `${ms} ms`)
+    logger(errorMessage, `${ms} ms`)
 
     return result
   }, Clazz)
