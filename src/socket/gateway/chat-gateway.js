@@ -20,7 +20,9 @@ class ChatGateway extends Gateway {
     await setActive(this.user.objectId, changes)
 
     chatIds.forEach(chatId => {
-      this.client.broadcast.to(chatId).emit(e.USER_ACTIVE, { chatId, ...changes })
+      this.client.broadcast.to(chatId)
+        .except(this.user.objectId)
+        .emit(e.USER_ACTIVE, { chatId, ...changes })
     })
   }
 
